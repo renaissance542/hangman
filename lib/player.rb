@@ -45,7 +45,7 @@ class Player
     puts <<~PROMPT
       \nThe mystery word is #{game_data.mystery_word}
       You have already guessed #{game_data.letters_guessed}
-      You have #{game_data.guesses_remaining} guesses remaining.
+      You have #{game_data.strikes} strikes.
       Guess a single letter or the whole word, or type
       'save' or 'quit'
     PROMPT
@@ -53,7 +53,7 @@ class Player
 
   def valid_guess?(input, game_data)
     if (input.length == 1 && !game_data.letters_guessed.include?(input)) ||
-       (%w[save quit].include?(input.downcase)) ||
+       %w[save quit].include?(input.downcase) ||
        (input.length == game_data.secret_word.length)
       true
     else

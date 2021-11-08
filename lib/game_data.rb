@@ -4,11 +4,11 @@ require 'json'
 # game data stored here
 class Game_data
   FILE = '5desk.txt'
-  attr_accessor :secret_word, :guesses_remaining, :letters_guessed
+  attr_accessor :secret_word, :strikes, :letters_guessed
 
-  def initialize(secret_word = generate_secret_word, guesses_remaining = 12, letters_guessed = [])
+  def initialize(secret_word = generate_secret_word, strikes = 0, letters_guessed = [])
     @secret_word = secret_word
-    @guesses_remaining = guesses_remaining
+    @strikes = strikes
     @letters_guessed = letters_guessed
   end
 
@@ -21,14 +21,14 @@ class Game_data
   def to_json(*)
     JSON.dump ({
       secret_word: @secret_word,
-      guesses_remaining: @guesses_remaining,
+      strikes: @strikes,
       letters_guessed: @letters_guessed
     })
   end
 
   def self.from_json(string)
     data = JSON.load string
-    Game_data.new(data['secret_word'], data['guesses_remaining'], data['letters_guessed'])
+    Game_data.new(data['secret_word'], data['strikes'], data['letters_guessed'])
   end
 
   private

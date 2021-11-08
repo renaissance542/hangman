@@ -65,13 +65,13 @@ class Hangman
   end
 
   def resolve_guess(guess)
-    @game_data.guesses_remaining -= 1
-    @game_over = true if @game_data.guesses_remaining.zero?
+    @game_over = true if @game_data.strikes == 12
     resolve_guessed_letter(guess) if guess.length == 1
     resolve_guessed_word(guess) if guess.length > 1
   end
 
   def resolve_guessed_letter(letter)
+    @game_data.strikes += 1 unless @game_data.secret_word.chars.uniq.include?(letter)
     @game_data.letters_guessed.push(letter)
     check_victory
   end
