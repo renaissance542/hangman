@@ -18,11 +18,11 @@ class Game_data
     word
   end
 
-  def to_json
+  def to_json(*)
     JSON.dump ({
-      :secret_word => @secret_word,
-      :guesses_remaining => @guesses_remaining,
-      :letters_guessed => @letters_guessed
+      secret_word: @secret_word,
+      guesses_remaining: @guesses_remaining,
+      letters_guessed: @letters_guessed
     })
   end
 

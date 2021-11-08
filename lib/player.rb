@@ -41,6 +41,7 @@ class Player
   end
 
   def print_guess_prompt(game_data)
+    system("clear") || system("cls")
     puts <<~PROMPT
       \nThe mystery word is #{game_data.mystery_word}
       You have already guessed #{game_data.letters_guessed}
@@ -76,5 +77,18 @@ class Player
 
       Good luck!
     RULES
+  end
+
+  def game_over_message(game_won, word)
+    if game_won
+      puts <<~WON
+        \nCongratulations!  You guessed the word!
+      WON
+    else
+      puts <<~LOST
+        \1nOut of guesses.  You Lost.
+        The word was #{word}
+      LOST
+    end
   end
 end

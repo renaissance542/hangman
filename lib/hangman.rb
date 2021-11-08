@@ -5,7 +5,7 @@ require_relative 'player' # player interface
 
 # controller for data and player classes
 class Hangman
-  
+
   def initialize
     @player = Player.new
     @game_over = false
@@ -19,8 +19,10 @@ class Hangman
   end
 
   def main_menu_loop
-    @player.print_main_menu
-    resolve_menu_input(@player.menu_input) until @quit
+    until @quit
+      @player.print_main_menu
+      resolve_menu_input(@player.menu_input) 
+    end
   end
 
   # rubocop:disable Metrics/MethodLength
@@ -42,6 +44,8 @@ class Hangman
 
   def play_game
     resolve_input(@player.get_guess(@game_data)) until @game_over
+    @player.game_over_message(@game_won, @game_data.secret_word)
+    reset_game
   end
 
   def resolve_input(input)
@@ -53,6 +57,11 @@ class Hangman
     else
       resolve_guess(input)
     end
+  end
+
+  def reset_game
+    @game_over = false
+    @game_won = false
   end
 
   def resolve_guess(guess)
@@ -68,7 +77,7 @@ class Hangman
   end
 
   def check_victory
-    correct_letters = @game_data.letters_guessed & @game_data.secret_word.chars.uniq
+    correct_letters = @game_data.secret_word.chars.uniq & @game_data.letters_guessed
     return unless correct_letters == @game_data.secret_word.chars.uniq
 
     @game_won = true
