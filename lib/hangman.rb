@@ -10,6 +10,7 @@ class Hangman
     @player = Player.new
     @game_over = false
     @game_won = false
+    @quit = false
   end
 
   def run_app
@@ -44,7 +45,7 @@ class Hangman
 
   def play_game
     resolve_input(@player.get_guess(@game_data)) until @game_over
-    @player.game_over_message(@game_won, @game_data.secret_word)
+    @player.game_over_message(@game_won, @game_data.secret_word) unless @quit
     reset_game
   end
 
@@ -54,6 +55,7 @@ class Hangman
       save_game
     when 'quit'
       @game_over = true
+      @quit = true
     else
       resolve_guess(input)
     end
@@ -62,6 +64,7 @@ class Hangman
   def reset_game
     @game_over = false
     @game_won = false
+    @quit = false
   end
 
   def resolve_guess(guess)
@@ -92,15 +95,18 @@ class Hangman
   end
 
   def save_game
-    File.open('saved_game', 'w+') { |f| f.puts @game_data.to_json } # IOstream auto-closed
+    File.open("saved_games/#{@game_data.mystery_word}.json", 'w+') { |f| f.puts @game_data.to_json }
     puts 'Saving Game'
   end
 
   # load game:  read JSON file and create @data object
   def restore_game
-    return Game_data.new unless File.exist?('saved_game')
+    file = 'saved_games/' + @player.choose_file
+    return Game_data.new if file.nil?
 
-    Game_data.from_json(File.read('saved_game'))
+    game_data = Game_data.from_json(File.read(file))
+    File.delete(file)
+    game_data
   end
 end
 

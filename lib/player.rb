@@ -86,9 +86,29 @@ class Player
       WON
     else
       puts <<~LOST
-        \1nOut of guesses.  You Lost.
+        \nOut of guesses.  You Lost.
         The word was #{word}
       LOST
     end
+  end
+
+  # rubocop:disable Metrics/MethodLength
+  def choose_file
+    puts "\nChoose a file to load.  Enter a number."
+    files = []
+    counter = 0
+    # list directory contents alongside a number
+    Dir.each_child('saved_games') do |f| 
+      files.push(f)
+      puts "#{counter += 1}: #{f}"
+    end
+
+    if files.empty? 
+      puts 'No saved games available.'
+      return nil
+    end
+
+      puts 'Invalid Input. Enter a file number.' until (input = gets.chomp.to_i).between?(1, files.length)
+      files[input-1]
   end
 end
