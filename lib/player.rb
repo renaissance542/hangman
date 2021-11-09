@@ -45,7 +45,7 @@ class Player
     puts <<~PROMPT
       \nThe mystery word is #{game_data.mystery_word}
       You have already guessed #{game_data.letters_guessed}
-      You have #{game_data.strikes} strikes.
+      You have #{game_data.strikes}/8 strikes.
       Guess a single letter or the whole word, or type
       'save' or 'quit'
     PROMPT
@@ -69,7 +69,7 @@ class Player
       you will see where it goes.  If the letter is not
       in the word, you get a strike.
 
-      If you complete the word before getting 12 strikes,
+      If you complete the word before getting 8 strikes,
       then you win.
 
       You may also attempt to guess the entire word on your
@@ -86,7 +86,7 @@ class Player
       WON
     else
       puts <<~LOST
-        \nOut of guesses.  You Lost.
+        \nOut of guesses.
         The word was #{word}
       LOST
     end

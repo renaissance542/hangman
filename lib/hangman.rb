@@ -68,7 +68,7 @@ class Hangman
   end
 
   def resolve_guess(guess)
-    @game_over = true if @game_data.strikes == 12
+    @game_over = true if @game_data.strikes == 8
     resolve_guessed_letter(guess) if guess.length == 1
     resolve_guessed_word(guess) if guess.length > 1
   end
